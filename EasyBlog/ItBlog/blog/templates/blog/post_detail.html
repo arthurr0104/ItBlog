@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block content %}
+<main class="hoc container clear">
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+    <div class="content three_quarter first">
+        <h1>{{post.title}}</h1>
+        <div class="one_quarter first">
+
+            {% if post.image %}
+            <img class="imgr borderedbox inspace-5" src="{{post.image.url}}" alt="">
+            {% else %}
+            <img class="" src="https://picsum.photos/200/300" alt="">
+
+            {% endif %}
+        </div>
+        <div class="three_quarter">
+            <p>{{post.content}}</p>
+            <p class="card-text">
+                <small class="text-muted">
+                    <span class="mr-2">{{ post.created_date }}</span>
+                    <span class="ml-2 fa fa-tags"></span>
+                    <a href="{{ post.category.get_absolute_url }}" class="badge badge-light text-muted">
+                        {{post.category }}
+                    </a>
+                </small>
+
+
+            </p>
+            {% if post.tag.all %}
+
+            <p class="card-text">
+                <small class="text-muted">Տեգեր։
+                    {% for tag in post.tag.all %}
+                    <a href="{{ tag.get_absolute_url }}"> {{ tag.name }}</a>
+                    {% endfor %}
+
+                </small>
+            </p>
+            {% endif %}
+
+            <small class="card-text"><span class="text-muted">Դիտել են {{post.views}} անգամ</span></small>
+        </div>
+        <hr>
+        <br>
+        <div id="comments">
+            <h2>Մեկնաբանություններ</h2><br>
+            {% load mptt_tags %}
+            {% get_comment post.pk as comments %}
+            <ul>
+                {% recursetree comments %}
+                <li>
+                    <article>
+                        <header>
+                            <figure class="avatar"><img src="{% static 'images/demo/avatar.png' %}" alt=""></figure>
+                            <address>
+                                By <a href="#"> {{ node.author }}</a>
+                            </address>
+                            <time datetime="2045-04-06T08:15+00:00">{{node.created_at}}</time>
+                        </header>
+                        <div class="comcont">
+                            <p>{{node.text}}</p>
+                            <button type="button" class="btn btn-primary">Պատասխանել</button>
+
+                        </div>
+
+                    </article>
+                    {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                    {% endif %}
+                </li>
+                {% endrecursetree %}
+            </ul>
+            {% if user.is_anonymous %}
+
+            <div class="alert alert-info" role="alert">
+                Մեկնաբանություն թողնելու համար <a href="{% url 'login' %}" class="alert-link">մուտք </a>գործեք Ձեր
+                անձնական էջ։
+            </div>
+
+
+            {% else %}
+            <h2>Թողնել մեկնաբանություն</h2>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div>
+                    <button type="submit" class="btn btn-secondary"> Ավելացնել մեկնաբանությունը</button>
+                    &nbsp;
+                    <button type="reset" class="btn btn-light"> Մաքրել ֆորման</button>
+
+                </div>
+            </form>
+
+
+            {% endif %}
+        </div>
+    </div>
+
+
+    {% block sidebar %}
+    {% include 'inc/_sidebar.html' %}
+    {% endblock sidebar %}
+</main>
+{% endblock content %}
+
+
+<div class="clear"></div>

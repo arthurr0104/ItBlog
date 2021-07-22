@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Մուտք/Login
+{% endblock title %}
+
+{% block content %}
+<div style="max-width: 720px; height: 500px; margin-left: auto; margin-right: auto;">
+
+    <h1 style="padding-top:140px; margin:0 auto; max-width:490px;">Մուտք/Login</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-info">Մուտք</button>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Կապ մեզ հետ
+{% endblock title %}
+
+{% block content %}
+<style>
+form {
+        margin: 0 auto;
+        width:490px;
+        padding-top:30px;
+        padding-bottom:140px;
+    }
+
+</style>
+<div class="group btmspace-50 demo">
+    <div class="three_quarter">
+        <h3 style="padding-top:10px; margin:0 auto; max-width:490px;">Լրացրեք հետևյալ պարտադիր դաշտերը</h3>
+        <form method="post" action="{% url 'contact_us' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-info">ՈՒղարկել</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}
