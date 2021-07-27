@@ -1,0 +1,21 @@
+<article class="hoc container">
+    <!-- ################################################################################################ -->
+    <div class="sectiontitle">
+        <h3 class="heading">Կարևոր հայտարարություններ</h3>
+    </div>
+    <ul class="nospace group">
+        {% for item in important_news %}
+        {% if item == important_news.first %}
+        <li class="one_half first borderedbox inspace-15" >
+            {% else %}
+        <li class="one_half borderedbox inspace-15">
+            {% endif %}
+            <h5>{{ item.title }}</h5>
+            <blockquote>{{item.content}}
+            </blockquote>
+            <p class="right bold">{{item.created_date}}</p>
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- ################################################################################################ -->
+</article>
